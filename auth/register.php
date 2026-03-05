@@ -44,57 +44,90 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
 
         } catch (PDOException $e) {
-            // Handle duplicate email
             if ($e->getCode() == 23000) {
                 $errors[] = "Email already exists.";
             } else {
-                $errors[] = "Database error: " . $e->getMessage();
+                $errors[] = "Database error.";
             }
         }
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 400px; margin: 40px auto; }
-        .error { background: #ffdddd; padding: 10px; margin-bottom: 15px; border-left: 4px solid #d00; }
-        .toggle { cursor: pointer; font-size: 0.9em; color: #0077cc; }
-    </style>
+
+    <!-- Bootstrap -->
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="custom.css">
+
 </head>
-<body>
 
-<h2>Create an Account</h2>
+<body class="bg-light">
 
-<?php if (!empty($errors)): ?>
-    <div class="error">
-        <?php foreach ($errors as $err): ?>
-            <p><?= htmlspecialchars($err) ?></p>
-        <?php endforeach; ?>
+<div class="container">
+    <div class="row justify-content-center align-items-center vh-100">
+        <div class="col-md-5">
+
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-4">
+
+                    <h3 class="text-center mb-4">Create an Account</h3>
+
+                    <?php if (!empty($errors)): ?>
+                        <div class="alert alert-danger">
+                            <?php foreach ($errors as $err): ?>
+                                <p class="mb-0"><?= htmlspecialchars($err) ?></p>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <div class="input-group">
+                                <input type="password" id="password" name="password" class="form-control" required>
+                                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">Show</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Confirm Password</label>
+                            <div class="input-group">
+                                <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+                                <button type="button" class="btn btn-outline-secondary" onclick="toggleConfirm()">Show</button>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary w-100">Register</button>
+
+                    </form>
+
+                    <p class="text-center mt-3">
+                        Already have an account?
+                        <a href="login.php">Login</a>
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
     </div>
-<?php endif; ?>
-
-<form action="" method="POST">
-
-    <label>Username</label><br>
-    <input type="text" name="username" required><br><br>
-
-    <label>Email</label><br>
-    <input type="email" name="email" required><br><br>
-
-    <label>Password</label><br>
-    <input type="password" id="password" name="password" required>
-    <span class="toggle" onclick="togglePassword()">Show</span><br><br>
-
-    <label>Confirm Password</label><br>
-    <input type="password" id="confirm_password" name="confirm_password" required>
-    <span class="toggle" onclick="toggleConfirm()">Show</span><br><br>
-
-    <button type="submit">Register</button>
-</form>
+</div>
 
 <script>
     function togglePassword() {
@@ -107,6 +140,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         field.type = field.type === 'password' ? 'text' : 'password';
     }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
