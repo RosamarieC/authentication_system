@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label class="form-label">Password</label>
                             <div class="input-group">
                                 <input type="password" id="password" name="password" class="form-control" required>
-                                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">Show</button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword(this)">Show</button>
                             </div>
                         </div>
 
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label class="form-label">Confirm Password</label>
                             <div class="input-group">
                                 <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
-                                <button type="button" class="btn btn-outline-secondary" onclick="toggleConfirm()">Show</button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="toggleConfirm(this)">Show</button>
                             </div>
                         </div>
 
@@ -130,14 +130,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <script>
-    function togglePassword() {
+    function togglePassword(btn) {
         const field = document.getElementById('password');
-        field.type = field.type === 'password' ? 'text' : 'password';
+
+        if (field.type === 'password') {
+            field.type = 'text';
+            btn.textContent = 'Hide';
+        } else {
+            field.type = 'password';
+            btn.textContent = 'Show';
+        }
     }
 
-    function toggleConfirm() {
+    function toggleConfirm(btn) {
         const field = document.getElementById('confirm_password');
-        field.type = field.type === 'password' ? 'text' : 'password';
+
+        if (field.type === 'password') {
+            field.type = 'text';
+            btn.textContent = 'Hide';
+        } else {
+            field.type = 'password';
+            btn.textContent = 'Show';
+        }
     }
 </script>
 
